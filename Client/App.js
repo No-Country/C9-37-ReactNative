@@ -37,6 +37,7 @@ import FormEntrenamiento from "./components/FormEntrenamiento";
 import ServicesContracted from "./components/ServicesContracted";
 import ServicesProvided from "./components/ServicesProvided";
 import UserProfile from "./components/UserProfile";
+import ForgotPassword from "./screens/ForgotPassword";
 import Privacy from "./screens/Privacy";
 
 // Setea la url base a partir de la cual axios va a realizar las llamadas al back
@@ -107,7 +108,7 @@ function BottomNavigation({ isDarkMode, setDarkMode, colors }) {
         headerRight: () => (
           <Ionicons
             onPress={() => setDarkMode(!isDarkMode)}
-            name={isDarkMode? "sunny-outline" : "moon-outline"}
+            name={isDarkMode ? "sunny-outline" : "moon-outline"}
             size={30}
             color={isDarkMode ? "#fff" : "#000"}
           />
@@ -332,6 +333,14 @@ function App() {
                   component={UserProfile}
                   options={{
                     title: ""
+                  }}
+                />
+
+                <Stack.Screen
+                  name="ForgotPassword"
+                  component={ForgotPassword}
+                  options={{
+                    title: "Olvidé mi contraseña"
                   }}
                 />
 
