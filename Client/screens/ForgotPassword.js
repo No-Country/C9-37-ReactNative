@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -11,16 +11,18 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../components/InputField";
 import { useTheme, useNavigation, Link } from "@react-navigation/native";
-import { loginUser } from "./../redux/actions/index";
+import { loginUser } from "../redux/actions/index";
+import { useAuth } from "../context/AuthContext";
 import { actionLogin } from "../redux/reducers/users";
 
-const Login = ({ openLogin, setOpenLogin, setOpenRegister }) => {
+const ForgotPassword = ({ route }) => {
+  const { setOpenLogin, emailFromLogin } = route.params;
   const { colors } = useTheme();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(false);
   const { loading } = useSelector(state => state.users);
+  const { resetPassword } = useAuth();
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -29,19 +31,15 @@ const Login = ({ openLogin, setOpenLogin, setOpenRegister }) => {
     setErrors(prevState => ({ ...prevState, [input]: error }));
   };
 
-  async function handleSignin() {
+  async function handlePasswordReset() {
     try {
-      const loginCredentials = { email, password };
       handleError("");
-      dispatch(loginUser(loginCredentials));
+      await resetPassword(email);
     } catch (error) {
-      console.log(error);
-      if (error.code === "auth/wrong-password") {
-        handleError("Contraseña incorrecta", "password");
-      } else if (error.code === "auth/user-not-found") {
-        handleError("No existe una cuenta registrada con ese email", "password");
+      if (error.code === "auth/user-not-found") {
+        handleError("Usuario no encontrado", "email");
       } else if (error.code) {
-        handleError("Algo ha salido mal. Por favor inténtelo nuevamente", "password");
+        handleError("Algo salió mal, por favor intentelo de nuevo", "email");
       }
     }
   }
@@ -59,30 +57,20 @@ const Login = ({ openLogin, setOpenLogin, setOpenRegister }) => {
       setValid(false);
     }
 
-    if (!password) {
-      handleError("Por favor, introduzca su contraseña", "password");
-      setValid(false);
-    } else if (password.length < 5) {
-      handleError("Por favor, introduzca una contraseña con al menos 5 caracteres", "password");
-      setValid(false);
-    }
-
     if (valid) {
-      await handleSignin();
-      dispatch(actionLogin(true));
-      setOpenLogin(!openLogin);
+      await handlePasswordReset();
       navigation.navigate("Perfil");
     }
   };
 
-  function goRegister() {
+  useEffect(() => {
     setOpenLogin(false);
-    setOpenRegister(true);
-  }
+    setEmail(emailFromLogin ? emailFromLogin : "");
+  }, []);
 
   return (
     <>
-      <View className="flex gap-y-2 px-4 pb-8 lg:px-8 lg:py-8 w-full">
+      <View className="flex gap-y-2 p-8 w-full">
         {loading ? (
           <View className="absolute bottom-0  top-[-60] left-[-20] right-0 justify-center  align-center w-[100vw] bg-gray-100 opacity-25 h-[100vh] m-0 z-10">
             <ActivityIndicator
@@ -102,23 +90,21 @@ const Login = ({ openLogin, setOpenLogin, setOpenRegister }) => {
         />
 
         <Text style={{ color: colors.text }} className="text-2xl mb-4 font-bold text-center">
-          Bienvenido a MascotApp
+          Olvidé mi contraseña
         </Text>
+        <View className="w-100 align-center">
+          <Text style={{ color: colors.text }} className="text-sm mb-4 w-[80%] self-center">
+            ¿Olvidó la contraseña de su cuenta? Ingrese su dirección de correo electrónico y le
+            enviaremos un enlace de recuperación.
+          </Text>
+        </View>
 
         <InputField
-          className="my-2"
           label="E-Mail"
           placeholder="Correo electrónico"
           onChangeText={text => setEmail(text)}
           error={errors.email}
-        />
-        <InputField
-          className="my-2"
-          label="Contraseña"
-          placeholder="Tu contraseña"
-          onChangeText={text => setPassword(text)}
-          error={errors.password}
-          password
+          value={email}
         />
 
         <View className="bg-violet-700 p-3 rounded-lg">
@@ -127,25 +113,18 @@ const Login = ({ openLogin, setOpenLogin, setOpenRegister }) => {
           </Pressable>
         </View>
 
-        <View className="flex gap-y-2 justify-start items-start">
-          <Link to={{ screen: "ForgotPassword", params: { emailFromLogin: email, setOpenLogin } }}>
-            <Text className="text-violet-500/80 font-bold">Me Olvide la Contraseña</Text>
+        <View className="flex gap-y-2">
+          <Link to={{ screen: "Perfil" }}>
+            <Text className="text-violet-500/80 font-bold">Tenes cuenta? Inicia sesión acá</Text>
           </Link>
-          <Text
-            onPress={() => {
-              setOpenLogin(false), navigation.navigate("Privacy");
-            }}
-            className="text-violet-500/80 font-bold"
-          >
-            Politica de Privacidad
-          </Text>
-          <Text onPress={() => goRegister()} className="text-violet-500/80 font-bold">
-            No tenes cuenta? Registrate aca
-          </Text>
+          <Link to={{ screen: "Perfil" }}>
+            <Text className="text-violet-500/80 font-bold">No tenes cuenta? Registrate acá</Text>
+          </Link>
+          <Text className="text-violet-500/80 font-bold">Politica de Privacidad</Text>
         </View>
       </View>
     </>
   );
 };
 
-export default Login;
+export default ForgotPassword;

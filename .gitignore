@@ -17,3 +17,4 @@ Server/firebase/ServiceAccount.json
 
 # macOS
 *.DS_Store
+node_modules
