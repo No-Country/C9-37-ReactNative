@@ -20,7 +20,10 @@ const SearchBar = () => {
   };
 
   return (
-    <View className="flex flex-row justify-center items-center pt-3 pl-2 pr-14">
+    <View className="flex flex-row justify-center items-center pt-3 pl-2 pr-20 w-full">
+      <View className="w-10 md:w-0">
+
+      </View>
       <View className="left-12">
         <SearchIcon color={colors.text}></SearchIcon>
       </View>

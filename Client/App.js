@@ -105,7 +105,7 @@ function BottomNavigation({ isDarkMode, setDarkMode, colors }) {
         headerRight: () => (
           <Ionicons
             onPress={() => setDarkMode(!isDarkMode)}
-            name="moon-outline"
+            name={isDarkMode? "sunny-outline" : "moon-outline"}
             size={30}
             color={isDarkMode ? "#fff" : "#000"}
           />

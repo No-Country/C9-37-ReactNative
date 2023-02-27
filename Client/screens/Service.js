@@ -4,8 +4,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Link, useTheme } from "@react-navigation/native";
 import { Children } from "react";
 import { Pressable } from "react-native";
+import { useSelector } from "react-redux";
 
 const Service = ({ route }) => {
+  const { currentUser } = useSelector(state => state.users);
   const user = route.params.user;
   const colorScheme = "light";
   const { colors } = useTheme();
@@ -93,7 +95,7 @@ const Service = ({ route }) => {
           </View>
         </Link>
         <View>
-          <Link to={{ screen: "Message", params: { user: user } }}>
+            <Link to={currentUser?.data?.id? { screen: "Message", params: { user } } : {screen: "Perfil"}}>
             <View
               style={{ color: colors.text, borderColor: colors.text }}
               className="border-2 px-8 py-1 mr-2"

@@ -36,12 +36,19 @@ const Favorites = () => {
               className="flex flex-row gap-x-2 border my-1 overflow-hidden relative"
             >
               <View className="relative">
-                <Image
-                  className="h-32 w-32"
-                  source={{
-                    uri: favorite.profile_pic
-                  }}
-                />
+                {
+                  favorite?.profile_pic?
+                  <Image
+                    className="h-32 w-32"
+                    source={{
+                      uri: favorite.profile_pic
+                    }}
+                  />
+                  :
+                  <View className="flex justify-center h-32 w-32 items-center">
+                    <Ionicons name="person-circle-outline" color={colors.text} size={100} />
+                  </View>
+                }
                 <Text
                   style={{ backgroundColor: favorite.offers_services ? "#07d70a" : "#000" }}
                   className="text-white font-medium text-center p-1 bottom-0 w-full"
@@ -50,12 +57,15 @@ const Favorites = () => {
                 </Text>
               </View>
 
-              <View className="p-2 flex gap-y-1">
+              <View className="p-2 flex gap-y-1 flex-shrink">
                 <Text style={{ color: colors.text }} className="text-xl">
-                  {favorite.name}
+                  {favorite.name+" "+favorite.surname}
                 </Text>
                 <Text style={{ color: colors.text }} className="opacity-70">
                   {favorite.city}
+                </Text>
+                <Text style={{ color: colors.text }} className="opacity-70">
+                  {favorite.description}
                 </Text>
               </View>
 

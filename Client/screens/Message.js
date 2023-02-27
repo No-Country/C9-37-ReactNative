@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, Pressable, KeyboardAvoidingView } from "react-native";
+import { ScrollView, KeyboardAvoidingView } from "react-native";
 import ChatHeader from "../components/ChatHeader";
 import ChatInput from "../components/ChatInput";
 import { useState, useEffect, useRef } from "react";
@@ -7,18 +7,10 @@ import { useSelector } from "react-redux";
 import {
   collection,
   query,
-  where,
   onSnapshot,
   addDoc,
-  Timestamp,
   orderBy,
-  setDoc,
-  doc,
-  getDoc,
-  updateDoc,
-  writeBatch
 } from "firebase/firestore";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseDb as db } from "../firebase";
 
 const Message = ({ route }) => {
@@ -100,7 +92,7 @@ const Message = ({ route }) => {
       );
     }
     } catch (error) {
-    console.log("aca "+error);
+    console.log(error);
     }
     setChatMessage("");
   };

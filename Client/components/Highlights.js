@@ -6,7 +6,7 @@ import LoadingGif from "./LoadingGif";
 import { useSelector } from "react-redux";
 
 const Highlights = ({ data }) => {
-  const { colors } = useTheme();
+  const { dark, colors } = useTheme();
   const { currentUser } = useSelector(state => state.users);
 
   if (!data) return <LoadingGif />;
@@ -14,11 +14,11 @@ const Highlights = ({ data }) => {
   return (
     <>
       <ScrollView>
-        <View className="flex flex-wrap flex-row gap-4 justify-center">
+        <View className="flex justify-start flex-wrap gap-2 flex-row pl-2 py-4 lg:pl-10">
           {data?.length > 0 ? (
             Children.toArray(
-              data.map(card => (
-                <Link to={currentUser?.data?.id === card.id? { screen: "Perfil"} : { screen: "VisitProfile", params: {user: card, title: card.name, id : card.id} }}>
+              data.map((card, index) => (
+                <Link style={{marginRight: data.length-1 === index? "auto" : 0}} to={currentUser?.data?.id === card.id? { screen: "Perfil"} : { screen: "VisitProfile", params: {user: card, title: card.name, id : card.id} }}>
                   <View
                     className="flex-1 flex items-center w-32 border border-black/5 rounded-lg overflow-hidden bg-white/10 pt-3"
                   >
@@ -34,12 +34,13 @@ const Highlights = ({ data }) => {
                         }}
                       />
                     ) : (
-                      <Ionicons
-                        name="person-circle-outline"
-                        size={100}
-                        style={{ height: 100, width: 100 }}
-                        color={colors.text}
-                      />
+                      <View className="bg-white">
+                        <Ionicons
+                          name="person-circle-outline"
+                          size={100}
+                          style={{ height: 100, width: 100 }}
+                        />
+                      </View>
                     )}
 
                     <View className="p-2">
@@ -51,13 +52,20 @@ const Highlights = ({ data }) => {
                         De {card.city}
                       </Text>
 
-                      {Children.toArray(
-                        card?.categories?.map(category => (
-                          <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">
-                            {category?.name}
-                          </Text>
-                        ))
-                      )}
+                      {
+                        card?.categories?.length > 0?
+                        Children.toArray(
+                          card?.categories?.map(category => (
+                            <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">
+                              {category?.name}
+                            </Text>
+                          ))
+                        )
+                        :
+                        <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">
+                          Usuario
+                        </Text>
+                      }
 
                       <View className="flex flex-row py-2 justify-left items-left gap-x-2">
                         {card.profile_pic ? (

@@ -20,9 +20,9 @@ const InputField = ({ label, error, password, placeholder, onFocus = () => {}, .
   // hay que implementar un contexto para tomar el modo actual del dispositivo de momento uso dark de usetheme
 
   return (
-    <View className="mb-5">
+    <View className="mb-3">
       <Text
-        className="text-sm font-bold my-1"
+        className="text-sm font-bold mb-1"
         style={{
           color: dark? COLORS.grey : COLORS.black
         }}
@@ -47,14 +47,14 @@ const InputField = ({ label, error, password, placeholder, onFocus = () => {}, .
           }}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={hidePassword}
-          className={"flex w-full justify-center mb-2 py-2 px-3 h-full rounded-md "+(dark? "color-[#BABBC3]" : "color-[#7978B5]")}
+          className={"flex w-full justify-center py-2 px-3 h-full rounded-md "+(dark? "color-[#BABBC3]" : "color-[#7978B5]")}
           placeholder={placeholder}
           placeholderTextColor="grey"
           {...props}
         />
       </View>
 
-      {error && <Text className="my-2 text-xs color-[#ff0000]">{error}</Text>}
+      {error && <Text className="my-1 text-xs color-[#ff0000]">{error}</Text>}
     </View>
   );
 };

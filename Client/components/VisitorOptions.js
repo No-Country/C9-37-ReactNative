@@ -36,7 +36,7 @@ const VisitorOptions = () => {
               <Text style={{color: colors.text}} className="font-bold">Iniciar Sesión</Text>
               <Text className="w-10"></Text>
             </View>
-            <Login openLogin={openLogin} setOpenLogin={setOpenLogin} />
+            <Login openLogin={openLogin} setOpenLogin={setOpenLogin} setOpenRegister={setOpenRegister}/>
           </View>
         </View>
         </ScrollView>

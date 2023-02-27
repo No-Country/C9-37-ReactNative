@@ -14,8 +14,7 @@ import { useTheme, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "./../redux/actions/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from 'react-native-toast-message';
 
 const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
   const { colors } = useTheme();
@@ -60,22 +59,30 @@ const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
 
     switch (firebaseError?.message) {
       case "auth/email-already-in-use":
-        toast.error("Ya existe una cuenta con ese email", {
-          position: toast.POSITION.BOTTOM_CENTER
+        Toast.show({
+          type:"error",
+          text1:"Ya existe una cuenta con ese email"
         });
         setValid(false);
         break;
       case "auth/invalid-email":
-        toast.error("Email inválido", { position: toast.POSITION.BOTTOM_CENTER });
+        Toast.show({
+          type:"error",
+          text1:"Email inválido"
+        });
         setValid(false);
         break;
       case "auth/weak-password":
-        toast.error("La contraseña es demasiado débil", { position: toast.POSITION.BOTTOM_CENTER });
+        Toast.show({
+          type:"error",
+          text1:"La contraseña es demasiado débil"
+        });
         setValid(false);
         break;
       default:
-        toast.error("Algo ha salido mal. Por favor, inténtelo nuevamente", {
-          position: toast.POSITION.BOTTOM_CENTER
+        Toast.show({
+          type:"error",
+          text1:"Algo ha salido mal."
         });
         setValid(false);
         break;
@@ -92,10 +99,13 @@ const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
   };
 
   return (
+    <>
+    <Toast/>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}>
       <ScrollView className="w-full ">
         <View className="w-full ">
           <InputField
+            className="my-1"
             label="Nombre"
             placeholder="Tu nombre"
             onChangeText={text => setFormData({ ...formData, name: text })}
@@ -103,6 +113,7 @@ const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
             value={formData.name}
           />
           <InputField
+            className="my-1"
             label="Apellido"
             placeholder="Tu apellido"
             onChangeText={text => setFormData({ ...formData, surname: text })}
@@ -111,6 +122,7 @@ const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
             value={formData.surname}
           />
           <InputField
+            className="my-1"
             label="Ciudad"
             placeholder="Tu ciudad"
             onChangeText={text => setFormData({ ...formData, city: text })}
@@ -118,24 +130,22 @@ const FormSecondScreen = ({ formData, setFormData, setScreen }) => {
             error={errors.city}
             value={formData.city}
           />
-
-          <View className=" gap-2 flex-row justify-center w-full">
-            <View className="rounded-lg bg-violet-700 m-2 flex-[0.5]">
-              <Pressable onPress={() => setScreen(0)} className=" p-3 rounded-lg">
+          <View className="flex flex-row justify-start gap-x-5 w-full">
+            <View className="flex justify-center items-center rounded-lg bg-violet-700 my-2">
+              <Pressable onPress={() => setScreen(0)} className=" py-3 px-6 rounded-lg">
                 <Text className="text-white text-center font-bold text-lg">Atrás</Text>
               </Pressable>
             </View>
-            <View className="rounded-lg bg-violet-700 m-2 flex-[0.5]">
-              <Pressable onPress={handleValidation} className=" p-3 rounded-lg">
+            <View className="flex justify-center items-center rounded-lg bg-violet-700 my-2">
+              <Pressable onPress={handleValidation} className=" py-3 px-6 rounded-lg">
                 <Text className="text-white text-center font-bold text-lg">Registrarme</Text>
               </Pressable>
             </View>
           </View>
-
-          <ToastContainer />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </>
   );
 };
 
