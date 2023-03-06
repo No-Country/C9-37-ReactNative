@@ -21,16 +21,14 @@ const SearchBar = () => {
 
   return (
     <View className="flex flex-row justify-center items-center pt-3 pl-2 pr-20 w-full">
-      <View className="w-10 md:w-0">
-
-      </View>
+      <View className="w-10 md:w-0"></View>
       <View className="left-12">
         <SearchIcon color={colors.text}></SearchIcon>
       </View>
       <TextInput
         style={{ color: colors.text, borderColor: colors.text }}
         className="rounded-lg p-3 pl-14 border w-full"
-        placeholder="Buscar en MascotApp"
+        placeholder="Buscar ciudad"
         onChange={e => setInput(e.nativeEvent.text)}
         onSubmitEditing={handleInput}
         keyboardType="web-search"

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard } from "react-native";
+import { View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, Alert } from "react-native";
 import React from "react";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -85,13 +85,12 @@ const Request = ({ route }) => {
         const response = await dispatch(addRequest(formData));
 
         if (response) {
-          Toast.show({
-            type: "success",
-            text1: `Contratacion exitosa `
-          });
-          setTimeout(() => {
-            navigation.goBack("");
-          }, 1500);
+          Alert.alert(
+            "Contratación existosa",
+            "Puedes ver a quien contrataste haciendo click en servicios contratados",
+            [{ text: "OK" }]
+          );
+          navigation.navigate("Home");
         }
       } catch (error) {
         Toast.show({

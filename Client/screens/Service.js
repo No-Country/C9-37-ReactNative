@@ -126,7 +126,7 @@ const Service = ({ route }) => {
               onPress={() =>
                 navigation.navigate(
                   currentUser?.data?.id
-                    ? { name: "Review", params: { user, currentUser, jobOffer } }
+                    ? { name: "Review", params: { user, currentUser, jobOffer, userContracted } }
                     : { name: "Perfil" }
                 )
               }
@@ -135,8 +135,8 @@ const Service = ({ route }) => {
               <Text className="text-xl text-white">Calificar</Text>
             </TouchableOpacity>
           ) : ownUser ? (
-            <View className="flex flex-row gap-x-5 justify-center">
-              {/* <View className="">
+            <View className="flex flex-row gap-x-5 pb-6 justify-center">
+              <View className="">
                 <TouchableOpacity className="flex flex-row justify-center items-center bg-violet-700 py-2 px-12 rounded-lg">
                   <Text className="text-xl text-white">Editar</Text>
                 </TouchableOpacity>
@@ -145,7 +145,7 @@ const Service = ({ route }) => {
                 <TouchableOpacity className="flex flex-row justify-center items-center bg-violet-700 py-2 px-10 rounded-lg">
                   <Text className="text-xl text-white">Eliminar</Text>
                 </TouchableOpacity>
-              </View> */}
+              </View>
             </View>
           ) : (
             <TouchableOpacity

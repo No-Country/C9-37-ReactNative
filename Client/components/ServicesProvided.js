@@ -18,54 +18,56 @@ const ServicesProvided = () => {
   }, []);
 
   return (
-    <View style={{ color: colors.text, borderColor: colors.text }}>
-      {jobOffersUser?.length >= 1 ? (
-        <View className="w-max-[120px] flex flex-row flex-wrap justify-center gap-x-4 gap-y-5 py-6">
-          {jobOffersUser.map(jobOffer => (
-            <Link
-              key={jobOffer.id}
-              to={{ screen: "Service", params: { jobOffer: jobOffer, user: user, ownUser: true } }}
-            >
-              <View
+    <ScrollView>
+      <View style={{ color: colors.text, borderColor: colors.text }}>
+        {jobOffersUser?.length >= 1 ? (
+          <View className="w-max-[120px] flex flex-row flex-wrap justify-center gap-x-4 gap-y-5 py-6">
+            {jobOffersUser.map(jobOffer => (
+              <Link
                 key={jobOffer.id}
-                className="relative shadow-sm rounded-lg overflow-hidden bg-white/10 mt-3"
+                to={{
+                  screen: "Service",
+                  params: { jobOffer: jobOffer, user: user, ownUser: true }
+                }}
               >
-                <Image
-                  className="h-24"
-                  source={{
-                    uri: jobOffer.img
-                  }}
-                />
+                <View key={jobOffer.id} className="w-36 shadow-sm rounded-lg bg-white/10 mt-3">
+                  <Image
+                    className="h-24 rounded-t-lg"
+                    source={{
+                      uri: jobOffer.img
+                    }}
+                  />
 
-                <View className="p-3 gap-y-1 flex justify-center items-center">
-                  <Text
-                    numberOfLines={1}
-                    style={{ color: colors.text }}
-                    className="text-base font-semibold -mb-1 flex justify-center"
-                  >
-                    {jobOffer.name}
-                  </Text>
+                  <View className="p-3 gap-y-1 flex justify-center items-center">
+                    <Text
+                      numberOfLines={1}
+                      style={{ color: colors.text }}
+                      className="text-base font-semibold -mb-1 flex justify-center"
+                    >
+                      {jobOffer.name}
+                    </Text>
 
-                  <Text
-                    numberOfLines={1}
-                    style={{ color: colors.textGray }}
-                    className="text-sm flex justify-center"
-                  >
-                    En {user.city}
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={{ color: colors.textGray }}
+                      className="text-sm flex justify-center"
+                    >
+                      En {user.city}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </Link>
-          ))}
-        </View>
-      ) : (
-        <View className="py-3 px-4">
-          <Text className="text-lg" style={{ color: colors.text, borderColor: colors.text }}>
-            No ofreces servicios
-          </Text>
-        </View>
-      )}
-    </View>
+              </Link>
+            ))}
+          </View>
+        ) : (
+          <View className="py-3 px-4">
+            <Text className="text-lg" style={{ color: colors.text, borderColor: colors.text }}>
+              No ofreces servicios
+            </Text>
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
