@@ -18,11 +18,14 @@ const ServicesContracted = () => {
   const { userContracted } = useSelector(state => state.users);
   const { userContractedJobOffers } = useSelector(state => state.users);
 
+  // console.log(requestsUser);
+  // console.log(userContracted);
+
   useEffect(() => {
     dispatch(fetchRequestsUser({ currentUser }));
     dispatch(fetchRequestInfoUserId(requestsUser[0]?.hired_user_id));
     dispatch(fetchJobOffersRequestUser(requestsUser[0]?.hired_user_id));
-  }, [dispatch]);
+  }, []);
 
   return userContracted ? (
     <View className="shadow-sm py-3 px-4 rounded-lg bg-white/10 mt-2 mb-10">
@@ -30,7 +33,7 @@ const ServicesContracted = () => {
         to={{
           screen: "Service",
           params: {
-            jobOffer: userContractedJobOffers[0],
+            jobOffer: userContractedJobOffers ? userContractedJobOffers[0] : undefined,
             user: userContracted,
             userContracted: true
           }

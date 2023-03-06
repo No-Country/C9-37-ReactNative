@@ -14,7 +14,7 @@ const Highlights = ({ data }) => {
   return (
     <>
       <ScrollView>
-        <View className="flex justify-center lg:justify-start flex-wrap gap-2 flex-row py-4 lg:pl-10">
+        <View className="flex justify-center flex-wrap gap-2 flex-row py-2">
           {data?.length > 0 ? (
             Children.toArray(
               data.map((card, index) => (
@@ -30,7 +30,7 @@ const Highlights = ({ data }) => {
                 >
                   <View
                     className={
-                      "flex-1 flex items-center w-32 border border-black/5 rounded-lg overflow-hidden bg-white/10 pt-3 " +
+                      "flex-1 flex items-center w-28 border border-black/5 rounded-lg overflow-hidden bg-white/10 pt-3" +
                       (data.length - 1 === index ? "lg:mr-auto" : "")
                     }
                   >
@@ -59,18 +59,24 @@ const Highlights = ({ data }) => {
                       <Text
                         numberOfLines={1}
                         style={{ color: colors.textGray }}
-                        className="text-sm w-28"
+                        className="text-sm"
                       >
                         De {card?.city}
                       </Text>
 
                       {card?.categories?.length > 0 ? (
                         Children.toArray(
-                          card?.categories?.map(category => (
-                            <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">
-                              {category?.name}
-                            </Text>
-                          ))
+                          card?.categories?.map(category =>
+                            category.name === "entrenamiento" ? (
+                              <Text className="bg-violet-700 text-white font-bold text-center capitalize py-1">
+                                {category?.name}
+                              </Text>
+                            ) : (
+                              <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">
+                                {category?.name}
+                              </Text>
+                            )
+                          )
                         )
                       ) : (
                         <Text className="bg-violet-700 text-white font-bold p-1 text-center capitalize">

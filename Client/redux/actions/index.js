@@ -319,6 +319,7 @@ export const fetchRequestsUser = createAsyncThunk("/myRequests", async data => {
 export const fetchRequestInfoUserId = createAsyncThunk("users/fetchRequestId", async userId => {
   try {
     const userById = await axios.get(`/users/${userId}`);
+
     return userById.data;
   } catch (error) {
     console.log(error);
@@ -334,13 +335,49 @@ export const fetchJobOffersRequestUser = createAsyncThunk("/jobOffersRequest", a
   }
 });
 
-export const fetchReviewsUser = createAsyncThunk("/reviews/fetchReviewsUser", async currentUser => {
+export const addReview = createAsyncThunk("/addReview", async formData => {
   try {
-    const { data } = currentUser;
+    const { reviewer_user_id, description, stars, userId } = formData;
 
-    const myReviews = await axios.get(`/reviews/${data.id}`);
+    const newReview = {
+      reviewer_user_id,
+      description,
+      stars
+    };
+
+    const response = await axios.post(`/reviews/create/${userId}`, newReview);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const fetchReviewsUser = createAsyncThunk("/reviews/fetchReviewsUser", async data => {
+  try {
+    const { currentUser } = data;
+    console.log(currentUser.data.id);
+    const userId = currentUser.data.id;
+
+    const myReviews = await axios.get(`/reviews/${userId}`);
     return myReviews.data;
   } catch (error) {
     return error.response.data;
   }
 });
+
+export const fetchReviewsUserSearch = createAsyncThunk(
+  "/reviews/fetchReviewsUserSearch",
+  async data => {
+    try {
+      const { user } = data;
+      console.log(user.id);
+      const userId = user.id;
+
+      const reviewsUser = await axios.get(`/reviews/${userId}`);
+      return reviewsUser.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

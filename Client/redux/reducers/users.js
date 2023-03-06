@@ -23,7 +23,8 @@ import {
   fetchRequestInfoUsers,
   updateUser,
   fetchReviewsUser,
-  addNewPet
+  addNewPet,
+  fetchReviewsUserSearch
 } from "../actions";
 
 const initialState = {
@@ -46,6 +47,7 @@ const initialState = {
   isLogin: false,
   usersContracted: [],
   reviewsUser: [],
+  reviewsUserSearch: [],
   isLogin: false
 };
 
@@ -132,11 +134,14 @@ const usersReducer = createSlice({
         ...{ data: { ...state.currentUser.data, ...formData, profile_pic: profile_pic } }
       };
     });
+    builder.addCase(addNewPet.fulfilled, (state, action) => {
+      state.petsUsers.push(action.payload);
+    });
     builder.addCase(fetchReviewsUser.fulfilled, (state, action) => {
       state.reviewsUser = action.payload;
     });
-    builder.addCase(addNewPet.fulfilled, (state, action) => {
-      state.petsUsers.push(action.payload);
+    builder.addCase(fetchReviewsUserSearch.fulfilled, (state, action) => {
+      state.reviewsUserSearch = action.payload;
     });
   }
 });

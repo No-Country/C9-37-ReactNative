@@ -1,4 +1,13 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  Image,
+  Alert
+} from "react-native";
 import React from "react";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -51,8 +60,8 @@ const FormAddPet = () => {
   };
 
   const handleSelect = data => {
-    const id = data? data[0] : null;
-    const type = data? data[1] : null;
+    const id = data ? data[0] : null;
+    const type = data ? data[1] : null;
     setFormData({ ...formData, idPet: id, typePet: type });
     setValid({ ...valid, typePet: true });
     type === "perro"
@@ -118,19 +127,14 @@ const FormAddPet = () => {
         const response = await dispatch(addNewPet({ user, formData }));
 
         if (response) {
-          Toast.show({
-            type: "success",
-            text1: `Mascota agregada con éxito`
-          });
-          setTimeout(() => {
-            navigation.goBack("");
-          }, 1500);
+          Alert.alert("Mascota creada con éxito", "Puedes ver tus mascotas en tu perfil", [
+            { text: "OK" }
+          ]);
+          navigation.goBack();
         }
       } catch (error) {
-        Toast.show({
-          type: "error",
-          text1: "Algo ha salido mal. Por favor inténtelo nuevamente"
-        });
+        Alert.alert("Algo ha salido mal", "Por favor intentelo nuevamente", [{ text: "OK" }]);
+        navigation.goBack();
       }
     }
   };

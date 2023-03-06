@@ -1,4 +1,13 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  Image,
+  Alert
+} from "react-native";
 import React from "react";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -99,19 +108,17 @@ const FormJobOffers = ({ route }) => {
         const response = await dispatch(addJobOffer({ user, formData }));
 
         if (response) {
-          Toast.show({
-            type: "success",
-            text1: `Servicio agregado correctamente `
-          });
-          setTimeout(() => {
-            navigation.goBack("");
-          }, 1500);
+          Alert.alert(
+            "Servicio creado con éxito",
+            "Puedes ver tus servicios haciendo click en servicios brindados",
+            [{ text: "OK" }]
+          );
+
+          navigation.navigate("Home");
         }
       } catch (error) {
-        Toast.show({
-          type: "error",
-          text1: "Algo ha salido mal. Por favor inténtelo nuevamente"
-        });
+        Alert.alert("Algo ha salido mal", "Por favor intentelo nuevamente", [{ text: "OK" }]);
+        navigation.goBack();
       }
     }
   };
