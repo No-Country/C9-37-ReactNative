@@ -27,7 +27,7 @@ const ServicesContracted = () => {
     dispatch(fetchJobOffersRequestUser(requestsUser[0]?.hired_user_id));
   }, []);
 
-  return userContracted ? (
+  return userContracted?.length >= 1 ? (
     <View className="shadow-sm py-3 px-4 rounded-lg bg-white/10 mt-2 mb-10">
       <Link
         to={{

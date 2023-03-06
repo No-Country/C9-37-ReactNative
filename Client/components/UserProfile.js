@@ -6,7 +6,8 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Platform
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useTheme } from "@react-navigation/native";
@@ -99,26 +100,51 @@ const UserProfile = ({ route }) => {
     );
 
   return (
-    <ScrollView>
-      <ScrollView className="p-5 gap-y-5">
-        <View className="flex flex-row pl-2">
-          {user.profile_pic ? (
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-                resizeMode: "cover"
-              }}
-              className="rounded-full"
-              source={{
-                uri: user.profile_pic
-              }}
-            />
-          ) : (
-            <View className="flex justify-center h-[105px] rounded-full bg-white">
-              <Ionicons name="person-circle-outline" size={100} />
-            </View>
-          )}
+  <ScrollView>
+    <ScrollView className={"px-5 pt-6 gap-y-5 h-full " + ( Platform.OS === "ios" ? "mb-10" : "")}>
+      <View className="flex flex-row pl-2">
+        {user.profile_pic ? (
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              resizeMode: "cover"
+            }}
+            className="rounded-full"
+            source={{
+              uri: user.profile_pic
+            }}
+          />
+        ) : (
+          <View className="flex justify-center h-[105px] rounded-full bg-white">
+            <Ionicons name="person-circle-outline" size={100} />
+          </View>
+        )}
+
+        <View className="flex justify-between flex-row w-full flex-shrink pl-4">
+          <View className="flex flex-col gap-y-2">
+            <Text style={{ color: colors.text }} className="text-2xl font-bold -mb-1 max-w-[150px]">
+              {user.name} {user.surname}
+            </Text>
+            <Text numberOfLines={1} style={{ color: colors.textGray }} className="text-sm -mb-1">
+              {user.city}
+            </Text>
+            {user.rating ? (
+              <View className="flex flex-row items-center">
+                {Children.toArray(
+                  Array.from(Array(user.rating)).map(star => (
+                    <Ionicons name="star" size={10} color="#ffe100" />
+                  ))
+                )}
+                <Text style={{ color: colors.textGray }} className="text-xs ml-1">
+                  {user.rating ? "(" + user.rating + ")" : undefined}
+                </Text>
+              </View>
+            ) : (
+              <Text className="text-xs text-white p-1 font-bold bg-violet-600 w-28 text-center rounded-sm">
+                Usuario Nuevo
+              </Text>
+            )}
 
           <View className="flex justify-between flex-row w-full flex-shrink pl-4">
             <View className="flex flex-col gap-y-2">
@@ -618,6 +644,59 @@ const UserProfile = ({ route }) => {
                         </Text>
                       </View>
                     </View>
+                  </View>
+                ))}
+              </View>
+            ) : (
+              <View className="">
+                <View>
+                  <Text style={{ color: colors.text }} className="text-base">
+                    No tiene mascotas
+                  </Text>
+                </View>
+              </View>
+            )}
+          </View>
+        )}
+      </View>
+
+      {user.offers_services ? (
+        <View className="mb-40">
+          <Text style={{ color: colors.text }} className="text-xl font-bold mb-1">
+            Reseñas
+          </Text>
+
+          {reviewsUser?.length ? (
+            <View className="shadow-sm py-3 px-4 rounded-lg bg-white/10 mt-2 mb-10">
+              <View className="flex flex-row items-center gap-x-6">
+                <View className="">
+                  <Image
+                    style={{
+                      width: 50,
+                      height: 50,
+                      resizeMode: "contain"
+                    }}
+                    className="rounded-full"
+                    source={{
+                      uri: "https://p16-tiktok-va-h2.ibyteimg.com/img/musically-maliva-obj/1665843987269638~c5_720x720.jpeg"
+                    }}
+                  />
+                </View>
+                <View className="flex flex-col gap-y-1">
+                  <View>
+                    <Text style={{ color: colors.text }} className="text-base font-medium">
+                      Pepito
+                    </Text>
+                  </View>
+                  <View>
+                    <Text numberOfLines={1} style={{ color: colors.textGray }} className="text-sm">
+                      De San Juan
+                    </Text>
+                  </View>
+                  <View className="">
+                    <Text style={{ color: colors.text }} className="text-sm">
+                      Muy bueno el compromiso
+                    </Text>
                   </View>
                 </View>
               ))

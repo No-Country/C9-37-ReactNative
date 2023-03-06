@@ -67,7 +67,7 @@ const Service = ({ route }) => {
               )}
             </View>
             <View className="flex pl-3 pb-1" style={{ color: colors.text }}>
-              <Text className="font-semibold text-lg">{user.name}</Text>
+              <Text style={{color: colors.text}} className="font-semibold text-lg">{user.name}</Text>
               <Text
                 numberOfLines={1}
                 style={{ color: colors.textGray }}
